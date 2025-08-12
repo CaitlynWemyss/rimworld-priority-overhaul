@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace PriorityOverhaul
 {
+    [StaticConstructorOnStartup]
     public static class CustomWidgets
     {
         private static Texture2D[] back = null;

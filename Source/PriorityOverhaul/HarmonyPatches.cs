@@ -46,27 +46,26 @@ namespace PriorityOverhaul
 
         [HarmonyPatch(typeof(Pawn_WorkSettings), nameof(Pawn_WorkSettings.ExposeData))]
         [HarmonyPostfix]
-        public static void Pawn_WorkSettings_ExposeData_Patch(Pawn ___pawn)
+        public static void Pawn_WorkSettings_ExposeData_Patch(Pawn ___pawn, DefMap<WorkTypeDef, int> ___priorities)
         {
             Global.Orders.TryGetValue(___pawn, out var order);
             Scribe_Deep.Look(ref order, "priority_overhaul_order", ___pawn);
+            if (___priorities != null && Scribe.mode == LoadSaveMode.PostLoadInit) Order.RepairUnsafe(ref order, ___pawn, ___priorities);
             Global.Orders.SetOrAdd(___pawn, order);
-            if (Scribe.mode != LoadSaveMode.PostLoadInit || order == null) return;
-            order.Repair();
         }
 
         [HarmonyPatch(typeof(Pawn_WorkSettings), nameof(Pawn_WorkSettings.EnableAndInitialize))]
         [HarmonyPostfix]
         public static void Pawn_WorkSettings_EnableAndInitialize_Patch(Pawn ___pawn, DefMap<WorkTypeDef, int> ___priorities)
         {
-            if (!Global.Orders.ContainsKey(___pawn)) Global.Orders.Add(___pawn, Order.FromPriorities(___pawn, ___priorities));
+            if (Global.Orders[___pawn] == null) Global.Orders.SetOrAdd(___pawn, Order.FromPriorities(___pawn, ___priorities));
         }
 
         [HarmonyPatch(typeof(Pawn_WorkSettings), nameof(Pawn_WorkSettings.Notify_DisabledWorkTypesChanged))]
         [HarmonyPostfix]
-        public static void Pawn_WorkSettings_Notify_DisabledWorkTypesChanged_Patch(Pawn ___pawn)
+        public static void Pawn_WorkSettings_Notify_DisabledWorkTypesChanged_Patch(DefMap<WorkTypeDef, int> ___priorities, Pawn ___pawn)
         {
-            if (Global.Orders.ContainsKey(___pawn)) Global.Orders[___pawn].RefreshCapable();
+            if (Global.Orders[___pawn] != null) Global.Orders[___pawn].RefreshCapable();
         }
 
         [HarmonyPatch(typeof(MemoryUtility), nameof(MemoryUtility.ClearAllMapsAndWorld))]

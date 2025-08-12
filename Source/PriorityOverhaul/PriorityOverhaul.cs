@@ -21,6 +21,7 @@ namespace PriorityOverhaul
 
     public class Order : IExposable
     {
+        private bool safe = false;
         private Pawn pawn;
         public List<WorkTypeDef> Enabled = new List<WorkTypeDef>();
         public List<WorkTypeDef> Disabled = new List<WorkTypeDef>();
@@ -53,6 +54,7 @@ namespace PriorityOverhaul
 
             var order = new Order(pawn)
             {
+                safe = true,
                 Enabled = Enabled,
                 Disabled = Disabled,
                 Incapable = Incapable
@@ -60,9 +62,32 @@ namespace PriorityOverhaul
             return order;
         }
 
-        public void Repair()
+        public static void RepairUnsafe(ref Order order, Pawn pawn, DefMap<WorkTypeDef, int> priorities)
         {
+            if (order == null) order = FromPriorities(pawn, priorities);
+            else order.RepairUnsafe(priorities);
+        }
+        
+        private void RepairUnsafe(DefMap<WorkTypeDef, int> priorities)
+        {
+            if (safe) return;
+            
+            if (Enabled == null) Enabled = new List<WorkTypeDef>();
+            if (Disabled == null) Disabled = new List<WorkTypeDef>();
+            if (Incapable == null) Incapable = new List<WorkTypeDef>();
+            
             var concat = Enabled.Concat(Disabled).Concat(Incapable).ToList();
+
+            if (concat.Count == 0 && priorities != null)
+            {
+                var o = FromPriorities(pawn, priorities);
+                Enabled = o.Enabled;
+                Disabled = o.Disabled;
+                Incapable = o.Incapable;
+                safe = true;
+                return;
+            }
+            
             var defs = DefDatabase<WorkTypeDef>.AllDefsListForReading;
             Enabled.RemoveAll(d => !defs.Contains(d));
             Disabled.RemoveAll(d => !defs.Contains(d));
@@ -73,6 +98,7 @@ namespace PriorityOverhaul
             RefreshCapable();
             foreach (var d in Enabled) pawn.workSettings.SetPriority(d, 3);
             foreach (var d in Disabled) pawn.workSettings.SetPriority(d, 0);
+            safe = true;
         }
 
         public void RefreshCapable()
