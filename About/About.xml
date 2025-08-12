@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModMetaData>
+  <packageId>SoggyDorito65.PriorityOverhaul</packageId>
+  <name>Priority Overhaul [Alpha]</name>
+  <author>Caitlyn Wemyss</author>
+  <description>
+WARNING: This mod is still a work in progress and there are bound to be bugs. While you CAN use it on your main save if you really want, I wouldn't recommend it. I'm only releasing it in its current state to get feedback on the design (and free bug testing >:3).
+
+I really hate those priority numbers. First the game sorts by the numbers you set, then it sorts by an arbitrary order the devs decided on? Wouldn't it make more sense just to modify that order directly and skip the numbers entirely? Well, that's what this mod does.
+
+Compatible with [FSF] Complex Jobs, but likely not compatible with other mods that change the work tab behaviour (e.g. Work Tab). I am planning on implementing integration with Better Pawn Control in the future but as of now it is not compatible.
+
+(There is currently a known issue where playing with a UI scale other than 1x causes the text to render incorrectly. I am looking into it, but for now just play with 1x scale if you want to use this mod.)
+  </description>
+  <supportedVersions><li>1.6</li></supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>ludeon.rimworld</li>
+    <li>ludeon.rimworld.royalty</li>
+    <li>ludeon.rimworld.ideology</li>
+    <li>ludeon.rimworld.biotech</li>
+    <li>ludeon.rimworld.anomaly</li>
+    <li>ludeon.rimworld.odyssey</li>
+  </loadAfter>
+</ModMetaData>

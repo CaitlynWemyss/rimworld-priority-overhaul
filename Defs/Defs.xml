@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+  <PawnTableDef>
+    <defName>PriorityOverhaul</defName>
+    <workerClass>PawnTable_PlayerPawns</workerClass>
+    <columns>
+      <li>LabelWithIcon</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Guest</li>
+      <li>Faction</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Ideo</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Xenotype</li>
+      <li>PriorityOverhaulReorder</li>
+    </columns>
+  </PawnTableDef>
+
+  <PawnColumnDef>
+    <defName>PriorityOverhaulReorder</defName>
+    <workerClass>PriorityOverhaul.ReorderColumn</workerClass>
+    <sortable>false</sortable>
+  </PawnColumnDef>
+
+</Defs>
