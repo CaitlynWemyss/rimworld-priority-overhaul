@@ -11,6 +11,8 @@ I really hate those priority numbers. First the game sorts by the numbers you se
 Compatible with [FSF] Complex Jobs, but likely not compatible with other mods that change the work tab behaviour (e.g. Work Tab). I am planning on implementing integration with Better Pawn Control in the future but as of now it is not compatible.
 
 (There is currently a known issue where playing with a UI scale other than 1x causes the text to render incorrectly. I am looking into it, but for now just play with 1x scale if you want to use this mod.)
+
+SOURCE: https://github.com/CaitlynWemyss/rimworld-priority-overhaul
   </description>
   <supportedVersions><li>1.6</li></supportedVersions>
   <modDependencies>
