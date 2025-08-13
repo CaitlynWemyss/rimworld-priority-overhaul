@@ -22,7 +22,7 @@ namespace PriorityOverhaul
             Text.Anchor = TextAnchor.MiddleCenter;
             GUI.color = skill >= 8 ? Color.black : new Color(0.9f, 0.9f, 0.9f, 1f);
             
-            drawBox(rect, skill < 0 ? unskilledBack : back[(int)Mathf.Round(skill)], 2f, hover == 2 ? enabled ? hintBorder : hintBorderDisabled : hover == 1 ? selectedBorder : border);
+            drawBox(rect, skill < 0 ? unskilledBack : back[(int)Mathf.Clamp(Mathf.Round(skill), 0f, 20f)], 2f, hover == 2 ? enabled ? hintBorder : hintBorderDisabled : hover == 1 ? selectedBorder : border);
             if (!enabled) drawBox(rect, disabled);
             
             var retMat = GUI.matrix;
