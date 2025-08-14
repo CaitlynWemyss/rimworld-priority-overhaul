@@ -25,13 +25,16 @@ namespace PriorityOverhaul
             drawBox(rect, skill < 0 ? unskilledBack : back[(int)Mathf.Clamp(Mathf.Round(skill), 0f, 20f)], 2f, hover == 2 ? enabled ? hintBorder : hintBorderDisabled : hover == 1 ? selectedBorder : border);
             if (!enabled) drawBox(rect, disabled);
             
+            // Label rotation courtesy of Fluffy. I legitimately couldn't have figured this out without stealing his algorithm. This code is ridiculously finicky.
             var retMat = GUI.matrix;
-            UI.RotateAroundPivot(-90, rect.center);
+            GUI.matrix = Matrix4x4.identity;
+            GUIUtility.RotateAroundPivot(-90f, rect.center);
+            GUI.matrix = retMat * GUI.matrix;
             var r = new Rect(0, 0, rect.height + 10f, rect.width);
             r.center = rect.center;
 
             Widgets.Label(r, trimStr(label.CapitalizeFirst()));
-            
+
             GUI.matrix = retMat;
             GUI.color = Color.white;
         }
@@ -66,11 +69,27 @@ namespace PriorityOverhaul
         
         private static void drawBox(Rect rect, Texture2D tex, float borderSize, Texture2D btex)
         {
-            drawBox(rect, tex);
-            drawBox(new Rect(rect.x, rect.y, rect.width, borderSize), btex);
-            drawBox(new Rect(rect.x, rect.y, borderSize, rect.height), btex);
-            drawBox(new Rect(rect.x, rect.y + rect.height - borderSize, rect.width, borderSize), btex);
-            drawBox(new Rect(rect.x + rect.width - borderSize, rect.y, borderSize, rect.height), btex);
+            // To fix weird pixel rounding issues with UI scaling. Only tested on 1080p and 1440p. Lower resolutions will work as they don't allow UI scaling.
+            var xOffset = 0f;
+            var yOffset = 0f;
+            var widthOffset = 0f;
+            var heightOffset = 0f;
+            switch (Prefs.UIScale)
+            {
+                case 1.25f:
+                    yOffset = -0.5f;
+                    widthOffset = 0.5f;
+                    break;
+            }
+            
+            var inner = rect;
+            inner.x += borderSize + xOffset;
+            inner.y += borderSize + yOffset;
+            inner.width -= borderSize * 2 + xOffset * 2 - widthOffset;
+            inner.height -= borderSize * 2 + yOffset * 2 - heightOffset;
+            
+            drawBox(rect, btex);
+            drawBox(inner, tex);
         }
 
         private static void drawBox(Rect rect, Texture2D tex)
