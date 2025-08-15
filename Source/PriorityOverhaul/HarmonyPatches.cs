@@ -61,6 +61,16 @@ namespace PriorityOverhaul
             if (Global.Orders.ContainsKey(___pawn) && Global.Orders[___pawn] != null) Global.Orders[___pawn].RefreshCapable();
         }
 
+        [HarmonyPatch(typeof(Pawn_WorkSettings), nameof(Pawn_WorkSettings.SetPriority))]
+        [HarmonyPostfix]
+        public static void Pawn_WorkSettings_SetPriority_Patch(Pawn ___pawn, WorkTypeDef w, int priority)
+        {
+            if (!Global.Orders.ContainsKey(___pawn) || Global.Orders[___pawn] == null) return;
+            var order = Global.Orders[___pawn];
+            if (priority > 0) order.Enable(w, true);
+            else if (priority == 0) order.Disable(w);
+        }
+
         [HarmonyPatch(typeof(MemoryUtility), nameof(MemoryUtility.ClearAllMapsAndWorld))]
         [HarmonyPostfix]
         public static void MemoryUtility_ClearAllMapsAndWorld_Patch()

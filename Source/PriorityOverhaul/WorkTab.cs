@@ -151,11 +151,11 @@ namespace PriorityOverhaul
                 if (selectedPawn != pawn || !selectedTypes.Contains(rightClick))
                 {
                     selectedTypes.Clear();
-                    order.Toggle(rightClick);
+                    order.Toggle(rightClick, PriorityOverhaulMod.settings.bestGuessEnable);
                     return;
                 }
                 var e = order.Enabled.Contains(rightClick);
-                foreach (var w in selectedTypes) if (e) order.Disable(w); else order.Enable(w);
+                foreach (var w in selectedTypes) if (e) order.Disable(w); else order.Enable(w, PriorityOverhaulMod.settings.bestGuessEnable);
                 selectedTypes.Clear();
                 return;
             }

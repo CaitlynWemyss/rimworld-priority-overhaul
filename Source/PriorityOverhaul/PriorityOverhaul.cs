@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Linq;
 using Verse;
 using HarmonyLib;
@@ -23,6 +24,7 @@ namespace PriorityOverhaul
             listingStandard.CheckboxLabeled("Use icons", ref settings.useIcons, "If disabled, will use text instead");
             listingStandard.CheckboxLabeled("Highlight disabled", ref settings.highlightDisabled, "If disabled, will draw red border around disabled work types instead of highlighting");
             listingStandard.CheckboxLabeled("Show incapable", ref settings.showIncapable, "Display work types the pawn is unable to do after the disabled work types");
+            listingStandard.CheckboxLabeled("Best guess quick-enable", ref settings.bestGuessEnable, "When right clicking to quick-enable a work type, attempts to place in the ideal position based on pre-existing order. If disabled, places at end of order.");
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
         }
@@ -33,12 +35,14 @@ namespace PriorityOverhaul
         public bool useIcons = true;
         public bool highlightDisabled = true;
         public bool showIncapable = false;
+        public bool bestGuessEnable = false;
 
         public override void ExposeData()
         {
             Scribe_Values.Look(ref useIcons, "useIcons");
             Scribe_Values.Look(ref highlightDisabled, "highlightDisabled");
             Scribe_Values.Look(ref showIncapable, "showIncapable");
+            Scribe_Values.Look(ref bestGuessEnable, "bestGuessEnable");
             base.ExposeData();
         }
     }
@@ -262,11 +266,26 @@ namespace PriorityOverhaul
             }
         }
 
-        public void Enable(WorkTypeDef work)
+        public void Enable(WorkTypeDef work, bool sort = false)
         {
             if (!Disabled.Contains(work)) return;
+            var index = Enabled.Count;
+            if (sort)
+            {
+                var defs = DefDatabase<WorkTypeDef>.AllDefsListForReading.OrderByDescending(d => d.naturalPriority).ToList();
+                for (var i = defs.IndexOf(work) - 1; i >= 0; i--)
+                {
+                    if (!Enabled.Contains(defs[i]))
+                    {
+                        if (i == 0) index = 0;
+                        continue;
+                    }
+                    index = Enabled.IndexOf(defs[i]) + 1;
+                    break;
+                }
+            }
             Disabled.Remove(work);
-            Enabled.Add(work);
+            Enabled.Insert(index, work);
             pawn.workSettings.SetPriority(work, 3);
         }
         
@@ -278,9 +297,9 @@ namespace PriorityOverhaul
             pawn.workSettings.SetPriority(work, 0);
         }
 
-        public void Toggle(WorkTypeDef work)
+        public void Toggle(WorkTypeDef work, bool sort = false)
         {
-            if (Enabled.Contains(work)) Disable(work); else Enable(work);
+            if (Enabled.Contains(work)) Disable(work); else Enable(work, sort);
         }
 
         public void ExposeData()
