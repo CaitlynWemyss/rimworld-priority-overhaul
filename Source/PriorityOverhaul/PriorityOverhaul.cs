@@ -22,6 +22,7 @@ namespace PriorityOverhaul
             var listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
             listingStandard.CheckboxLabeled("Use icons", ref settings.useIcons, "If disabled, will use text instead");
+            listingStandard.CheckboxLabeled("Compact mode", ref settings.compact, "Reduces screen usage by reducing margins and icon size, at the cost of readability. Good if you have a lot of modded work types.");
             listingStandard.CheckboxLabeled("Highlight disabled", ref settings.highlightDisabled, "If disabled, will draw red border around disabled work types instead of highlighting");
             listingStandard.CheckboxLabeled("Show incapable", ref settings.showIncapable, "Display work types the pawn is unable to do after the disabled work types");
             listingStandard.CheckboxLabeled("Best guess quick-enable", ref settings.bestGuessEnable, "When right clicking to quick-enable a work type, attempts to place in the ideal position based on pre-existing order. If disabled, places at end of order.");
@@ -33,6 +34,7 @@ namespace PriorityOverhaul
     public class PriorityOverhaulSettings : ModSettings
     {
         public bool useIcons = true;
+        public bool compact = false;
         public bool highlightDisabled = true;
         public bool showIncapable = false;
         public bool bestGuessEnable = false;
@@ -40,6 +42,7 @@ namespace PriorityOverhaul
         public override void ExposeData()
         {
             Scribe_Values.Look(ref useIcons, "useIcons");
+            Scribe_Values.Look(ref compact, "compact");
             Scribe_Values.Look(ref highlightDisabled, "highlightDisabled");
             Scribe_Values.Look(ref showIncapable, "showIncapable");
             Scribe_Values.Look(ref bestGuessEnable, "bestGuessEnable");
