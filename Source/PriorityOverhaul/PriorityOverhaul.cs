@@ -80,7 +80,7 @@ namespace PriorityOverhaul
             var Enabled = new List<WorkTypeDef>();
             var Disabled = new List<WorkTypeDef>();
             var Incapable = new List<WorkTypeDef>();
-            foreach (var (w, v) in priorities.OrderBy(p => p.Value))
+            foreach (var (w, v) in priorities.OrderBy(p => p.Value).ThenByDescending(p => p.Key.naturalPriority))
             {
                 if (pawn.WorkTypeIsDisabled(w))
                 {
@@ -97,11 +97,12 @@ namespace PriorityOverhaul
 
             var order = new Order(pawn)
             {
-                safe = true,
+                safe = false,
                 Enabled = Enabled,
                 Disabled = Disabled,
                 Incapable = Incapable
             };
+            order.RepairUnsafe(priorities);
             return order;
         }
 
