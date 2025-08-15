@@ -27,6 +27,7 @@ namespace PriorityOverhaul
                 DefMap<WorkTypeDef, int> ___priorities
             )
             {
+                Order.RepairUnsafe(___pawn, ___priorities);
                 var order = Global.Orders[___pawn];
                 
                 ___workGiversInOrderNormal.Clear();
@@ -50,15 +51,7 @@ namespace PriorityOverhaul
         {
             Global.Orders.TryGetValue(___pawn, out var order);
             Scribe_Deep.Look(ref order, "priority_overhaul_order", ___pawn);
-            if (___priorities != null && Scribe.mode == LoadSaveMode.PostLoadInit) Order.RepairUnsafe(ref order, ___pawn, ___priorities);
             if (order != null) Global.Orders.SetOrAdd(___pawn, order);
-        }
-
-        [HarmonyPatch(typeof(Pawn_WorkSettings), nameof(Pawn_WorkSettings.EnableAndInitialize))]
-        [HarmonyPostfix]
-        public static void Pawn_WorkSettings_EnableAndInitialize_Patch(Pawn ___pawn, DefMap<WorkTypeDef, int> ___priorities)
-        {
-            if (!Global.Orders.ContainsKey(___pawn) || Global.Orders[___pawn] == null) Global.Orders.SetOrAdd(___pawn, Order.FromPriorities(___pawn, ___priorities));
         }
 
         [HarmonyPatch(typeof(Pawn_WorkSettings), nameof(Pawn_WorkSettings.Notify_DisabledWorkTypesChanged))]

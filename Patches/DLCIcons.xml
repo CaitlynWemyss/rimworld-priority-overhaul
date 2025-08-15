@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Biotech</li>
+    </mods>
+    <match Class="PatchOperationAddModExtension">
+      <xpath>Defs/WorkTypeDef[defName="Childcare"]</xpath>
+      <value>
+        <li Class="PriorityOverhaul.IconPath">
+          <path>PriorityOverhaul/DLC/childcare</path>
+        </li>
+      </value>
+    </match>
+  </Operation>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Anomaly</li>
+    </mods>
+    <match Class="PatchOperationAddModExtension">
+      <xpath>Defs/WorkTypeDef[defName="DarkStudy"]</xpath>
+      <value>
+        <li Class="PriorityOverhaul.IconPath">
+          <path>PriorityOverhaul/DLC/darkstudy</path>
+        </li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

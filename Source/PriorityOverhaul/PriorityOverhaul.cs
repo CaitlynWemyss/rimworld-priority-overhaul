@@ -2,21 +2,64 @@ using System.Collections.Generic;
 using System.Linq;
 using Verse;
 using HarmonyLib;
+using UnityEngine;
 
 namespace PriorityOverhaul
 {
-    public class PriorityOverhaulConfig : Mod
+    public class PriorityOverhaulMod : Mod
     {
-        public PriorityOverhaulConfig(ModContentPack content) : base(content)
+        public static PriorityOverhaulSettings settings;
+        public override string SettingsCategory() => "Priority Overhaul";
+        
+        public PriorityOverhaulMod(ModContentPack content) : base(content)
+        {
+            settings = GetSettings<PriorityOverhaulSettings>();
+        }
+
+        public override void DoSettingsWindowContents(Rect inRect)
+        {
+            var listingStandard = new Listing_Standard();
+            listingStandard.Begin(inRect);
+            listingStandard.CheckboxLabeled("Use icons", ref settings.useIcons, "If disabled, will use text instead");
+            listingStandard.CheckboxLabeled("Highlight disabled", ref settings.highlightDisabled, "If disabled, will draw red border around disabled work types instead of highlighting");
+            listingStandard.CheckboxLabeled("Show incapable", ref settings.showIncapable, "Display work types the pawn is unable to do after the disabled work types");
+            listingStandard.End();
+            base.DoSettingsWindowContents(inRect);
+        }
+    }
+
+    public class PriorityOverhaulSettings : ModSettings
+    {
+        public bool useIcons = true;
+        public bool highlightDisabled = true;
+        public bool showIncapable = false;
+
+        public override void ExposeData()
+        {
+            Scribe_Values.Look(ref useIcons, "useIcons");
+            Scribe_Values.Look(ref highlightDisabled, "highlightDisabled");
+            Scribe_Values.Look(ref showIncapable, "showIncapable");
+            base.ExposeData();
+        }
+    }
+
+    public class IconPath : DefModExtension
+    {
+        public string path;
+        public static string GetPath(WorkTypeDef def) => def.HasModExtension<IconPath>() ? def.GetModExtension<IconPath>().path : null;
+        public static Texture2D GetTexture(WorkTypeDef def) => def.HasModExtension<IconPath>() ? ContentFinder<Texture2D>.Get(GetPath(def)) : null;
+    }
+
+    [StaticConstructorOnStartup]
+    public static class Global
+    {
+        public static Dictionary<Pawn, Order> Orders = new Dictionary<Pawn, Order>();
+
+        static Global()
         {
             var harmony = new Harmony("SoggyDorito65.PriorityOverhaul");
             harmony.PatchAll();
         }
-    }
-
-    public static class Global
-    {
-        public static Dictionary<Pawn, Order> Orders = new Dictionary<Pawn, Order>();
     }
 
     public class Order : IExposable
@@ -62,10 +105,23 @@ namespace PriorityOverhaul
             return order;
         }
 
-        public static void RepairUnsafe(ref Order order, Pawn pawn, DefMap<WorkTypeDef, int> priorities)
+        public static void RepairUnsafe(Pawn pawn, DefMap<WorkTypeDef, int> priorities)
         {
+            Global.Orders.TryGetValue(pawn, out var order);
             if (order == null) order = FromPriorities(pawn, priorities);
             else order.RepairUnsafe(priorities);
+            Global.Orders.SetOrAdd(pawn, order);
+        }
+
+        public static void RepairUnsafe(Pawn pawn)
+        {
+            Global.Orders.TryGetValue(pawn, out var order);
+            if (order != null && order.safe) return;
+            var priorities = new DefMap<WorkTypeDef, int>();
+            foreach (var work in DefDatabase<WorkTypeDef>.AllDefsListForReading) priorities[work] = pawn.workSettings.GetPriority(work);
+            if (order == null) order = FromPriorities(pawn, priorities);
+            else order.RepairUnsafe(priorities);
+            Global.Orders.SetOrAdd(pawn, order);
         }
         
         private void RepairUnsafe(DefMap<WorkTypeDef, int> priorities)

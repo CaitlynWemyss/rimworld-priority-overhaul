@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Firefighter"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/firefighter</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Patient"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/patient</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Doctor"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/doctor</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="PatientBedRest"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/bedrest</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="BasicWorker"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/basic</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Warden"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/warden</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Handling"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/handling</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Cooking"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/cooking</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Hunting"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/hunting</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Construction"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/construction</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Growing"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/growing</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Mining"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/mining</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="PlantCutting"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/plantcut</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Smithing"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/smithing</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Tailoring"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/tailoring</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Art"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/art</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Crafting"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/crafting</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Hauling"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/hauling</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Cleaning"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/cleaning</path>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/WorkTypeDef[defName="Research"]</xpath>
+        <value>
+            <li Class="PriorityOverhaul.IconPath">
+                <path>PriorityOverhaul/research</path>
+            </li>
+        </value>
+    </Operation>
+    
+</Patch>

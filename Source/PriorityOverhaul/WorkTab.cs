@@ -33,12 +33,19 @@ namespace PriorityOverhaul
 
     public class ReorderColumn : PawnColumnWorker
     {
-        public override int GetMinCellHeight(Pawn pawn) => 80;
+        private const int width = 24;
+        private const int height = 76;
+        private const int iconSize = 36;
+        private const int margin = 4;
+        private int Width() => PriorityOverhaulMod.settings.useIcons ? iconSize : width;
+        private int Height() => PriorityOverhaulMod.settings.useIcons ? iconSize : height;
+        
+        public override int GetMinCellHeight(Pawn pawn) => Height() + margin;
 
         public override int GetMinWidth(PawnTable table)
         {
             var types = DefDatabase<WorkTypeDef>.AllDefsListForReading.Count;
-            return types * 28 + 22;
+            return (types * (Width() + margin)) + 28;
         }
 
         private static Pawn hoveredPawn = null;
@@ -65,11 +72,11 @@ namespace PriorityOverhaul
             
             InitControl(rect, pawn);
 
+            Order.RepairUnsafe(pawn);
             var order = Global.Orders[pawn];
 
-            var x = rect.x + 8f;
+            var x = rect.x + 12f;
             var y = rect.y;
-            const float width = 24f;
 
             WorkTypeDef click = null;
             WorkTypeDef rightClick = null;
@@ -81,39 +88,41 @@ namespace PriorityOverhaul
                 hoveredType = null;
             }
 
-            void render(bool e)
+            void render(bool e, bool incapable = false)
             {
-                foreach (var w in e ? order.Enabled : order.Disabled)
+                foreach (var w in incapable ? order.Incapable : e ? order.Enabled : order.Disabled)
                 {
-                    var r = new Rect(x, y + 2, width, rect.height - 4);
-                    if (CustomWidgets.GetLeftDown(r)) click = w;
-                    if (CustomWidgets.GetRightDown(r)) rightClick = w;
+                    var r = new Rect(x, y + margin / 2f, Width(), Height());
+                    if (!incapable && CustomWidgets.GetLeftDown(r)) click = w;
+                    if (!incapable && CustomWidgets.GetRightDown(r)) rightClick = w;
 
                     var hover = Mouse.IsOver(r) && !dragging;
                     if (hover)
                     {
-                        hoveredPawn = pawn;
-                        hoveredType = w;
+                        if (!incapable) {
+                            hoveredPawn = pawn;
+                            hoveredType = w;
+                        }
                         TooltipHandler.TipRegion(r, () => WidgetsWork.TipForPawnWorker(pawn, w, false), pawn.thingIDNumber ^ w.GetHashCode());
                         MouseoverSounds.DoRegion(r);
                     }
                 
                     CustomWidgets.PriorityButton(
                         r,
-                        w.labelShort,
-                        e,
-                        w.relevantSkills.Count == 0 ? -1 : pawn.skills.AverageOfRelevantSkillsFor(w),
+                        w,
+                        incapable ? 2 : e ? 0 : 1,
+                        incapable || w.relevantSkills.Count == 0 ? -1 : pawn.skills.AverageOfRelevantSkillsFor(w),
                         hover || (pawn == selectedPawn && selectedTypes.Contains(w)) ? 1 : hoveredType == w ? 2 : 0
                     );
 
-                    if (dragging) handles.Add(new Handle
+                    if (dragging && !incapable) handles.Add(new Handle
                     {
                         inEnabled = e,
                         work = w,
-                        x = x + width,
+                        x = x + Width() + margin / 2f,
                     });
                     
-                    x += width + 4f;
+                    x += Width() + margin;
                 }
             }
 
@@ -121,17 +130,18 @@ namespace PriorityOverhaul
             {
                 inEnabled = true,
                 work = null,
-                x = x - 4f,
+                x = x - margin / 2f,
             });
             render(true);
-            x += 12f;
+            x += margin * 3f;
             handles.Add(new Handle
             {
                 inEnabled = false,
                 work = null,
-                x = x - 4f,
+                x = x - margin / 2f,
             });
             render(false);
+            if (PriorityOverhaulMod.settings.showIncapable) render(false, true);
 
             if (rightClick != null)
             {
@@ -219,8 +229,8 @@ namespace PriorityOverhaul
                 return;
             }
             
-            CustomWidgets.PriorityHandle(new Rect(closestHandle.x + 1f, y + 4f, 2f, rect.height - 8f));
-            CustomWidgets.PriorityGhost(new Rect(Event.current.mousePosition.x - (width / 2f), y + 2, width, rect.height - 4));
+            CustomWidgets.PriorityHandle(new Rect(closestHandle.x - 1f, y + margin / 2f + 2f, 2f, rect.height - margin - 4f));
+            CustomWidgets.PriorityGhost(new Rect(Event.current.mousePosition.x - (Width() / 2f), y + margin / 2f, Width(), rect.height - margin));
         }
 
         private void InitControl(Rect rect, Pawn pawn)
