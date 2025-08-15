@@ -4,13 +4,7 @@
   <name>Priority Overhaul [Alpha]</name>
   <author>Caitlyn Wemyss</author>
   <description>
-WARNING: This mod is still a work in progress and there are bound to be bugs. While you CAN use it on your main save if you really want, I wouldn't recommend it. I'm only releasing it in its current state to get feedback on the design (and free bug testing >:3).
-
 I really hate those priority numbers. First the game sorts by the numbers you set, then it sorts by an arbitrary order the devs decided on? Wouldn't it make more sense just to modify that order directly and skip the numbers entirely? Well, that's what this mod does.
-
-Compatible with [FSF] Complex Jobs, but likely not compatible with other mods that change the work tab behaviour (e.g. Work Tab). I am planning on implementing integration with Better Pawn Control in the future but as of now it is not compatible.
-
-INSTRUCTIONS: Everything highlighted red is disabled. Click and drag to reorder, right click to quick enable/disable. Multiple work types can be reordered at once using shift-click to select, then dragging/right clicking.
 
 SOURCE: https://github.com/CaitlynWemyss/rimworld-priority-overhaul
   </description>
@@ -24,10 +18,5 @@ SOURCE: https://github.com/CaitlynWemyss/rimworld-priority-overhaul
   </modDependencies>
   <loadAfter>
     <li>ludeon.rimworld</li>
-    <li>ludeon.rimworld.royalty</li>
-    <li>ludeon.rimworld.ideology</li>
-    <li>ludeon.rimworld.biotech</li>
-    <li>ludeon.rimworld.anomaly</li>
-    <li>ludeon.rimworld.odyssey</li>
   </loadAfter>
 </ModMetaData>
