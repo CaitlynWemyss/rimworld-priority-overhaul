@@ -19,4 +19,7 @@ SOURCE: https://github.com/CaitlynWemyss/rimworld-priority-overhaul
   <loadAfter>
     <li>ludeon.rimworld</li>
   </loadAfter>
+  <incompatibleWith>
+    <li>fluffy.worktab</li>
+  </incompatibleWith>
 </ModMetaData>

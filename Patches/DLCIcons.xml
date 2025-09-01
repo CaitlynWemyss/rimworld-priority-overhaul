@@ -29,4 +29,18 @@
     </match>
   </Operation>
 
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Odyssey</li>
+    </mods>
+    <match Class="PatchOperationAddModExtension">
+      <xpath>Defs/WorkTypeDef[defName="Fishing"]</xpath>
+      <value>
+        <li Class="PriorityOverhaul.IconPath">
+          <path>PriorityOverhaul/DLC/fishing</path>
+        </li>
+      </value>
+    </match>
+  </Operation>
+
 </Patch>
