@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModMetaData>
   <packageId>SoggyDorito65.PriorityOverhaul</packageId>
-  <name>Priority Overhaul [Alpha]</name>
+  <name>Priority Overhaul</name>
   <author>Caitlyn Wemyss</author>
   <description>
 I really hate those priority numbers. First the game sorts by the numbers you set, then it sorts by an arbitrary order the devs decided on? Wouldn't it make more sense just to modify that order directly and skip the numbers entirely? Well, that's what this mod does.
